@@ -3,3 +3,8 @@
 /trade/Dsshop/node_modules/
 admin/config/dev.env.js
 trade/Dsshop/unpackage/
+admin/
+plugin/
+template/
+trade/
+version/
