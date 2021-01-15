@@ -13,7 +13,7 @@
   </a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
 </p>
-<h3 align="center">DSHOP电商商城</h3>
+<h3 align="center">DSSHOP电商商城</h3>
 <p align="center">前后端分离架构，VUE2.0+Laravel7，免费开源可商用。</p>
 
 说明
@@ -21,7 +21,7 @@
 <p>如果因网络原因无法下载，可通过<a href="https://gitee.com/dswjcms/dsshop">https://gitee.com/dswjcms/dsshop</a>下载</p>
 <p>因版本更新迭代比较快，文档可能存在没有涉及的面，请自行阅读源码</p>
 <p>已验证版本(经测试后可以正常安装的版本):1.4.1</p>
-<p>当前版本1.4.1</p>
+<p>当前版本1.4.2</p>
 
 介绍
 ------------

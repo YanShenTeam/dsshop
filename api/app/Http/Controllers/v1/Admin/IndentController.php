@@ -33,16 +33,29 @@ class IndentController extends Controller
         GoodIndentCommodity::$withoutAppends = false;
         $q = GoodIndent::query();
         if($request->activeIndex){
-            $q->where('state',$request->activeIndex);
+            if($request->activeIndex==7){
+                $q->whereRaw('(state=7 OR state=8)');
+             }else{
+                $q->where('state',$request->activeIndex);
+            }           
         }
         if($request->title){
-            $q->where('identification',$request->title);
+            $q->where(function($q1) use($request){
+                $q1->orWhere('identification',$request->title)
+                    ->orWhere('odd',$request->title);
+            });
+            $q->orWhereHas('GoodLocation', function($query) use ($request){
+                $query->where('cellphone',$request->title)->orWhere('name',$request->title);
+            });
+            $q->orWhereHas('goodsList', function($query) use ($request){
+                $query->where('name','like',"%$request->title%");
+            });
         }
         $limit=$request->limit;
         $q->orderBy('updated_at','DESC');
         $paginate=$q->with(['goodsList'=>function($q){
             $q->with(['goodSku']);
-        }])->paginate($limit);
+        },'GoodLocation','Dhl'])->paginate($limit);
         return resReturn(1,$paginate);
     }
 
@@ -113,6 +126,26 @@ class IndentController extends Controller
             }else{
                 return array($Common['msg'],Code::CODE_PARAMETER_WRONG);
             }
+        });
+        if($return[0] == 1){
+            return resReturn(1,$return[1]);
+        }else{
+            return resReturn(0,$return[0],$return[1]);
+        }
+    }
+
+    /**
+     * 保存配送信息
+     * @param Request $request
+     * @return string
+     */
+    public function updateDhl(Request $request){
+        $return=DB::transaction(function ()use($request){
+            $GoodIndent=GoodIndent::find($request->id);
+            $GoodIndent->dhl_id = $request->dhl_id;
+            $GoodIndent->odd = $request->odd;
+            $GoodIndent->save();
+            return array(1,'修改成功');
         });
         if($return[0] == 1){
             return resReturn(1,$return[1]);
