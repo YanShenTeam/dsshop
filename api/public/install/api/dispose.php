@@ -33,7 +33,7 @@ switch ($_GET['step']){
                 'msgCode'=>'数据库连接失败，请查看连接地址是否正确',
                 'msg'=>$shell
             ];
-        }else if(strstr($shell,"Migration table created successfully.")){
+        }else if(strstr($shell,"Migration table created successfully.") || strstr($shell,"Nothing to migrate.")){
             $return =[
                 'code'=>1,
                 'step'=>2,
