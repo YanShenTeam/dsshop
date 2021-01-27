@@ -5,7 +5,6 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('usuel.search') }}</el-button>
       <el-button v-permission="$store.jurisdiction.CreateAdmin" class="filter-item" style="margin-left: 10px;float:right;" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
     </div>
-
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -52,15 +51,13 @@
       </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="$store.jurisdiction.UpdataPower" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-permission="$store.jurisdiction.UpdataAdmin" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
           <el-button v-permission="$store.jurisdiction.DeleteAdmin" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('usuel.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
-
     <!--分页-->
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-
     <!--添加-->
     <el-dialog :title="textMap[dialogStatus]" :close-on-click-modal="false" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
@@ -105,7 +102,6 @@
     </el-dialog>
   </div>
 </template>
-
 <style rel="stylesheet/scss" lang="scss">
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

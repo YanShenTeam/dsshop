@@ -3,7 +3,6 @@
     <div class="filter-container">
       <el-button v-permission="$store.jurisdiction.CreateManage" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('usuel.add') }}</el-button>
     </div>
-
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -49,7 +48,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!--添加-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-form ref="dataForm" :rules="adminRules" :model="temp" label-position="left" label-width="80px">

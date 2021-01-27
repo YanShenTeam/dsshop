@@ -1,24 +1,27 @@
 import { constantRouterMap } from '@/router'
 import Layout from '@/views/layout/Layout'
-
 // 模板
 export const componentsMap = {
-  dashboard: () => import('@/views/dashboard/index'),
-  AdministratorList: () => import('@/views/user/index'),
-  UsersList: () => import('@/views/user/users'),
-  ManageList: () => import('@/views/user/manageGroups'),
-  PowerList: () => import('@/views/user/power'),
-  RedisServices: () => import('@/views/tool/redisService/index'),
-  RedisServicesList: () => import('@/views/tool/redisService/list'),
-  RedisPanel: () => import('@/views/tool/redisService/panel'),
+  Dashboard: () => import('@/views/Dashboard/index'),
+  Admin: () => import('@/views/User/Admin/index'),
+  AdminList: () => import('@/views/User/Admin/list'),
+  Manage: () => import('@/views/User/Manage/index'),
+  ManageList: () => import('@/views/User/Manage/list'),
+  Member: () => import('@/views/User/Member/index'),
+  MemberList: () => import('@/views/User/Member/list'),
+  Power: () => import('@/views/User/Power/index'),
+  PowerList: () => import('@/views/User/Power/list'),
+  RedisServices: () => import('@/views/Tool/redisService/index'),
+  RedisServicesList: () => import('@/views/Tool/redisService/list'),
+  RedisPanel: () => import('@/views/Tool/redisService/panel'),
   Specification: () => import('@/views/GoodsManage/specification/index'),
   SpecificationList: () => import('@/views/GoodsManage/specification/list'),
   SpecificationGroup: () => import('@/views/GoodsManage/specificationGroup/index'),
   SpecificationGroupList: () => import('@/views/GoodsManage/specificationGroup/list'),
   Brand: () => import('@/views/GoodsManage/brand/index'),
   BrandList: () => import('@/views/GoodsManage/brand/list'),
-  ResourceData: () => import('@/views/tool/resource/index'),
-  ResourceDataList: () => import('@/views/tool/resource/list'),
+  ResourceData: () => import('@/views/Tool/resource/index'),
+  ResourceDataList: () => import('@/views/Tool/resource/list'),
   Category: () => import('@/views/GoodsManage/category/index'),
   CategoryList: () => import('@/views/GoodsManage/category/list'),
   // 商品管理
@@ -27,31 +30,31 @@ export const componentsMap = {
   CreateProduct: () => import('@/views/GoodsManage/goods/create'),
   EditProduct: () => import('@/views/GoodsManage/goods/edit'),
   // 运费模板
-  Freight: () => import('@/views/freight/index'),
-  freightList: () => import('@/views/freight/list'),
-  CreateFreight: () => import('@/views/freight/create'),
-  EditFreight: () => import('@/views/freight/edit'),
+  Freight: () => import('@/views/Freight/index'),
+  FreightList: () => import('@/views/Freight/list'),
+  CreateFreight: () => import('@/views/Freight/create'),
+  EditFreight: () => import('@/views/Freight/edit'),
   // 运费模板
-  Dhl: () => import('@/views/dhl/index'),
-  dhlList: () => import('@/views/dhl/list'),
+  Dhl: () => import('@/views/Dhl/index'),
+  DhlList: () => import('@/views/Dhl/list'),
   // 订单管理
   Indent: () => import('@/views/Indent/index'),
-  indentList: () => import('@/views/Indent/list'),
-  shipment: () => import('@/views/Indent/shipment'),
+  IndentList: () => import('@/views/Indent/list'),
+  Shipment: () => import('@/views/Indent/shipment'),
   // 轮播
-  Banner: () => import('@/views/tool/Banner/index'),
-  BannerList: () => import('@/views/tool/Banner/list'),
+  Banner: () => import('@/views/Tool/Banner/index'),
+  BannerList: () => import('@/views/Tool/Banner/list'),
   // 统计
-  StatisticsVisit: () => import('@/views/statistics/visit'),
-  StatisticsAgeAndSex: () => import('@/views/statistics/user'),
-  StatisticsPay: () => import('@/views/statistics/pay'),
+  StatisticsVisit: () => import('@/views/Statistics/visit'),
+  StatisticsAgeAndSex: () => import('@/views/Statistics/user'),
+  StatisticsPay: () => import('@/views/Statistics/pay'),
   // 插件列表
   // 插件
   PlugIn: () => import('@/views/Plugin/index'),
-  PlugInList: () => import('@/views/Plugin/list')
-
+  PlugInList: () => import('@/views/Plugin/list'),
+  CreatePlugIn: () => import('@/views/Plugin/create'),
+  EditPlugIn: () => import('@/views/Plugin/edit')
 }
-
 const permission = {
   state: {
     routers: constantRouterMap,
@@ -76,7 +79,6 @@ const permission = {
     }
   }
 }
-
 function generateAsyncRouter(componentsMap, serverRouterMap) {
   serverRouterMap.forEach(function(item, index) {
     if (!item.redirect) {
@@ -90,5 +92,4 @@ function generateAsyncRouter(componentsMap, serverRouterMap) {
   })
   return serverRouterMap
 }
-
 export default permission

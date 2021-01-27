@@ -6,7 +6,6 @@
       <el-button v-permission="$store.jurisdiction.CreateUser" class="filter-item" style="margin-left: 10px;float:right;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('usuel.add') }}</el-button>
       <!--<el-button v-permission="jurisdiction.usersListExport" v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">{{ $t('usuel.export') }}</el-button>-->
     </div>
-
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -63,14 +62,12 @@
       </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="$store.jurisdiction.UpdataPower" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-permission="$store.jurisdiction.UpdataUser" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
-
     <!--分页-->
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-
     <!--添加-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-form ref="dataForm" :rules="adminRules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
@@ -155,7 +152,7 @@ import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'UsersList',
+  name: 'MemberList',
   components: { Pagination },
   directives: { waves },
   data() {
