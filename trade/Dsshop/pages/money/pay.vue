@@ -63,7 +63,7 @@
 </template>
 
 <script>
-	import Indents from '../../api/indents'
+	import GoodIndent from '../../api/goodIndent'
 	import Pay from '../../api/pay'
 	import User from '../../api/user';
 	import {
@@ -98,23 +98,29 @@
 				return false
 			}
 			this.id = options.id
+		},
+		onShow(){
 			this.loginCheck()
 			this.getList()
 			this.getUser()
 		},
-
 		methods: {
 			...mapMutations(['loginCheck']),
 			getUser(){
 				const that = this
-				User.user(function(res){
+				User.detail(function(res){
 					that.user = res
 				})
 			},
 			getList(){
 				const that = this
-				Indents.getPay(this.id,function(res){
+				GoodIndent.pay(this.id,function(res){
 					that.orderInfo = res
+					if(res.state !== 1){
+						uni.redirectTo({
+							url: '/pages/money/paySuccess'
+						})
+					}
 				})
 			},
 			//选择支付方式
