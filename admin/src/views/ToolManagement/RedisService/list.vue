@@ -53,7 +53,7 @@
       <el-table-column label="操作" class-name="small-padding fixed-width" width="160" fixed="right">
         <template slot-scope="scope">
           <el-tooltip v-permission="$store.jurisdiction.RedisServiceList" class="item" effect="dark" content="查看" placement="top-start">
-            <el-button type="primary" icon="el-icon-mobile" circle @click="handleUpdate(scope.row)"/>
+            <el-button type="primary" icon="el-icon-mobile" circle @click="handleDetail(scope.row)"/>
           </el-tooltip>
           <el-tooltip v-permission="$store.jurisdiction.RedisServiceDestroy" class="item" effect="dark" content="删除" placement="top-start">
             <el-button :loading="formLoading" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -65,7 +65,7 @@
     <div class="pagination-operation">
       <div class="operation">
         <el-button size="mini" @click="handleCheckAllChange">全选/反选</el-button>
-        <el-button v-permission="$store.jurisdiction.DeleteRedisServices" :loading="formLoading" size="mini" type="danger" @click="handleAllDelete()">删除</el-button>
+        <el-button v-permission="$store.jurisdiction.RedisServiceDestroy" :loading="formLoading" size="mini" type="danger" @click="handleAllDelete()">删除</el-button>
       </div>
     </div>
 
@@ -244,7 +244,7 @@ export default {
         img: ''
       }
     },
-    handleUpdate(row) { // 查看
+    handleDetail(row) { // 查看
       this.temp = null
       this.temp = row
       this.dialogStatus = 'update'

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1\Admin;
 use App\Code;
 use App\Http\Requests\v1\SubmitAdminRequest;
 use App\Models\v1\Admin;
+use App\Models\v1\AdminLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -80,7 +81,7 @@ class AdminController extends Controller
      * @queryParam  password string 密码
      * @return string
      */
-    public function edit($id,SubmitAdminRequest $request)
+    public function edit($id, SubmitAdminRequest $request)
     {
         $Admin = Admin::find($id);
         if ($request->password) {  //修改密码
@@ -110,5 +111,24 @@ class AdminController extends Controller
         Storage::delete('public/image/avatar/' . $Admin->portrait);    //删除头像
         $Admin->delete();
         return resReturn(1, '删除成功');
+    }
+
+    /**
+     * Display a listing of the Syslog.
+     *
+     * @param  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function log(Request $request)
+    {
+        AdminLog::$withoutAppends = false;
+        $q = AdminLog::query();
+        if ($request->name) {
+            $q->where('name', $request->name);
+        }
+        $limit = $request->limit;
+        $q->orderBy('id', 'DESC');
+        $paginate = $q->paginate($limit);
+        return resReturn(1, $paginate);
     }
 }

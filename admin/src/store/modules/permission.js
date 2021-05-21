@@ -1,10 +1,11 @@
 import { constantRouterMap } from '@/router'
-import Layout from '@/views/layout/Layout'
+import Layout from '@/views/Layout/Layout'
 // 模板
 export const componentsMap = {
   Dashboard: () => import('@/views/Dashboard/index'),
   Admin: () => import('@/views/UserManagement/Admin/index'),
   AdminList: () => import('@/views/UserManagement/Admin/list'),
+  AdminLog: () => import('@/views/UserManagement/Admin/log'),
   Manage: () => import('@/views/UserManagement/Manage/index'),
   ManageList: () => import('@/views/UserManagement/Manage/list'),
   Member: () => import('@/views/UserManagement/Member/index'),
@@ -17,6 +18,7 @@ export const componentsMap = {
   GoodList: () => import('@/views/CommodityManagement/Good/list'),
   GoodCreate: () => import('@/views/CommodityManagement/Good/create'),
   GoodEdit: () => import('@/views/CommodityManagement/Good/edit'),
+  GoodDetail: () => import('@/views/CommodityManagement/Good/detail'),
   Brand: () => import('@/views/CommodityManagement/Brand/index'),
   BrandList: () => import('@/views/CommodityManagement/Brand/list'),
   Specification: () => import('@/views/CommodityManagement/Specification/index'),

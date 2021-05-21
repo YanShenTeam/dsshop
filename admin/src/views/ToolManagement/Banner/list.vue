@@ -127,7 +127,11 @@
               <el-progress :percentage="imgProgressPercent" type="circle" class="progress-img"/>
             </span>
             <span v-else>
-              <img v-if="temp.img" :src="temp.img" class="avatar">
+              <el-image
+                v-if="temp.img"
+                :src="temp.img"
+                fit="scale-down"
+                class="avatar"/>
               <i v-else class="el-icon-plus avatar-uploader-icon"/>
             </span>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png/gif文件，且不超过500kb</div>
@@ -150,7 +154,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{ $t('usuel.cancel') }}</el-button>
-        <el-button :loading="formLoading" type="primary" @click="dialogStatus==='create'?createSubmit():updateSubmit()">确定</el-button>
+        <el-button :loading="formLoading" type="primary" @click="dialogStatus==='create'?create():edit()">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -381,7 +385,7 @@ export default {
       }).catch(() => {
       })
     },
-    createSubmit() { // 添加
+    create() { // 添加
       this.formLoading = true
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
@@ -403,7 +407,7 @@ export default {
         }
       })
     },
-    updateSubmit() { // 更新
+    edit() { // 更新
       this.formLoading = true
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {

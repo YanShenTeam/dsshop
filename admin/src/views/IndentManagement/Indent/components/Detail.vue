@@ -53,12 +53,12 @@
           width="50"/>
         <el-table-column align="center" width="80">
           <template slot-scope="scope">
-            <img :src="scope.row.img" style="width:45px;height:45px;">
+            <el-image :src="scope.row.img" :preview-src-list="[scope.row.img]" style="width:45px;height:45px;"/>
           </template>
         </el-table-column>
         <el-table-column label="商品" align="left">
           <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <router-link :to="{ path: '/commodityManagement/good/goodDetail', query: { id: scope.row.good_id }}" target="_blank"> {{ scope.row.name }}</router-link>
           </template>
         </el-table-column>
         <el-table-column label="规格">
@@ -152,11 +152,34 @@
           </el-form-item>
           <el-form-item label="运单号" prop="odd">
             <div v-if="list.odd && !temp.odd">{{ list.odd }}</div>
-            <el-input v-else v-model="temp.odd" maxlength="255" clearable/>
+            <el-input v-else ref="odd" v-model="temp.odd" maxlength="255" clearable/>
           </el-form-item>
           <el-form-item v-if="list.state === 3">
             <el-button v-if="temp.id" :loading="shipmentLoading" type="primary" @click="setDhlUpdate">保存</el-button>
             <el-button v-else type="primary" @click="dhlUpdate">编辑</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-card>
+    <!-- 延长收货时间 -->
+    <el-card v-if="list.state === 3 && list.automaticReceivingState" shadow="always" style="margin-top: 25px">
+      <div slot="header" class="clearfix">
+        <span>延长收货时间</span>
+      </div>
+      <div>
+        <el-form ref="receivingForm" :rules="receivingRules" :model="receivingTemp" label-width="120px" style="width: 400px; margin-left:50px;">
+          <el-form-item label="自动收货时间">
+            <span>{{ list.receiving_time }}</span>
+          </el-form-item>
+          <el-form-item label="设置收货时间" prop="new_receiving_time">
+            <el-date-picker
+              v-model="receivingTemp.new_receiving_time"
+              type="date"
+              placeholder="选择收货时间"
+              value-format="yyyy-MM-dd HH:mm:ss"/>
+          </el-form-item>
+          <el-form-item>
+            <el-button :loading="shipmentLoading" type="primary" @click="receivingEdit">保存</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -176,7 +199,7 @@
         <el-col :span="24">退款说明：{{ list.refund_reason }}</el-col>
       </el-row>
     </el-card>
-    <div class="right" style="margin-top: 20px;">
+    <div class="right" style="margin-top: 20px;filter:alpha(Opacity=90);-moz-opacity:0.9;opacity: 0.9;">
       <el-button v-if="(list.state !== 1 && !list.refund_money) || !list.state === 8" :loading="shipmentLoading" type="danger" @click="dialogFormVisible = true">退款</el-button>
       <el-button v-if="list.state === 2" :loading="shipmentLoading" type="primary" @click="shipmentSubmit()">发货</el-button>
     </div>
@@ -364,7 +387,7 @@
   }
 </style>
 <script>
-import { detail, shipment, refund, query, dhl } from '@/api/indent'
+import { detail, shipment, refund, query, dhl, receiving } from '@/api/indent'
 import { getList } from '@/api/dhl'
 import printJS from 'print-js'
 export default {
@@ -381,7 +404,19 @@ export default {
       dialogFormVisible: false,
       listLoading: true,
       id: this.$route.query.id,
-      temp: {},
+      temp: {
+        dhl_id: null,
+        odd: ''
+      },
+      receivingTemp: {
+        id: 0,
+        new_receiving_time: ''
+      },
+      receivingRules: {
+        new_receiving_time: [
+          { required: true, message: '请设置新的自动收货时间', trigger: 'change' }
+        ]
+      },
       rules: {
         dhl_id: [
           { required: true, message: '请选择物流公司', trigger: 'change' }
@@ -445,6 +480,8 @@ export default {
             response.data.goods_list[k].specification = response.data.goods_list[k].specification.substr(0, response.data.goods_list[k].specification.length - 1)
           }
         }
+        this.receivingTemp.new_receiving_time = response.data.receiving_time
+        this.receivingTemp.id = response.data.id
         this.list = response.data
         this.refundTemp.refund_money = this.list.total
         // 同步支付信息
@@ -460,6 +497,12 @@ export default {
     getDhl() {
       getList().then(response => {
         this.dhl = response.data
+        for (const item of this.dhl) {
+          if (item.is_default === 1) {
+            this.temp.dhl_id = item.id
+            break
+          }
+        }
       })
     },
     shipmentSubmit() {
@@ -482,6 +525,13 @@ export default {
           })
         } else {
           this.shipmentLoading = false
+          this.$refs.odd.focus()
+          this.$notify({
+            title: '',
+            message: '请输入物流信息',
+            type: 'warning',
+            duration: 2000
+          })
         }
       })
     },
@@ -509,7 +559,7 @@ export default {
     },
     // 查询支付订单
     queryNumber(row) {
-      query(row).then(() => {})
+      query(row.id).then(() => {})
     },
     // 编辑配送信息
     dhlUpdate() {
@@ -518,12 +568,35 @@ export default {
     // 保存配送信息
     setDhlUpdate() {
       this.shipmentLoading = true
-      dhl(this.temp).then(() => {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          dhl(this.temp).then(() => {
+            this.shipmentLoading = false
+            this.temp = {}
+            this.getList()
+            this.$notify({
+              title: this.$t('hint.succeed'),
+              message: '保存成功',
+              type: 'success',
+              duration: 2000
+            })
+          }).catch(() => {
+            this.shipmentLoading = false
+          })
+        } else {
+          this.shipmentLoading = false
+        }
+      })
+    },
+    // 延长收货时间
+    receivingEdit() {
+      this.shipmentLoading = true
+      receiving(this.receivingTemp).then(() => {
         this.shipmentLoading = false
-        this.temp = {}
+        this.getList()
         this.$notify({
           title: this.$t('hint.succeed'),
-          message: '保存成功',
+          message: '修改成功',
           type: 'success',
           duration: 2000
         })
