@@ -1,6 +1,6 @@
 <!-- 
 使用方法 
- <Sku :getList="getList" @toggleSpec="toggleSpec"></Sku>
+ <sku :getList="getList" @toggleSpec="toggleSpec"></sku>
  getList：商品数据
  update: 是否是更新
 
@@ -64,7 +64,6 @@
 <script>
 import uniNumberBox from '@/components/uni-number-box.vue'
 import { param2Data } from '@/components/sku/sku2param'
-import GoodIndent from '@/api/goodIndent'
 export default{
 	name: 'sku',
 	components: {
@@ -115,15 +114,14 @@ export default{
 			specification: [],
 			shoppingAttributes: [],	//购物属性
 			getLists:this.getList,
-			buyState: this.buy,
-			loaded: false,	//是否已加载，微信小程序将会加载2次，为了防止加载2次产生的错误
+			buyState: this.buy
 		};
 	},
 	watch: {
 		getList(newVal) {
 			this.$emit('getList', newVal)
 			this.getLists = this.getList
-			if(!this.update && !this.loaded){
+			if(!this.update){
 				this.loadData()
 			}
 			
@@ -143,9 +141,8 @@ export default{
 	methods:{
 		//获取详情
 		loadData() {
-			this.loaded = true
 			this.selectedSku = []
-			// Sku
+			// sku
 			if (this.getLists.good_sku.length > 0) {
 				const { productSkus, specification } = param2Data(this.getLists.good_sku)
 				this.specification = specification
@@ -204,7 +201,7 @@ export default{
 			this.good_sku = newVal.good_sku
 			let checkedId = []	//选中的ID
 			let checkedBrother = []	//兄弟列表
-			// Sku
+			// sku
 			if (newVal.good_sku) {
 				const { productSkus, specification } = param2Data(this.getLists.good_sku)
 				this.specification = specification
@@ -454,7 +451,7 @@ export default{
 						cartList = {}
 					}
 					let img = this.getLists.resources_many[0].img
-					//Sku
+					//sku
 					if(this.getLists.good_sku.length>0){
 						if(this.shoppingAttributes.resources){
 							img = this.shoppingAttributes.resources.img
@@ -479,9 +476,7 @@ export default{
 							cartList[this.shoppingAttributes.id].price = this.cartGood.price
 							cartList[this.shoppingAttributes.id].name = this.getLists.name
 							cartList[this.shoppingAttributes.id].good_id = this.getLists.id
-							const good = JSON.parse(JSON.stringify(this.getLists))
-							delete good.details
-							cartList[this.shoppingAttributes.id].good = good
+							cartList[this.shoppingAttributes.id].good = this.getLists
 							cartList[this.shoppingAttributes.id].good_sku_id = this.shoppingAttributes.id
 							cartList[this.shoppingAttributes.id].good_sku = this.shoppingAttributes
 							cartList[this.shoppingAttributes.id].img = img
@@ -526,16 +521,10 @@ export default{
 						}
 						
 					}
-					for(var key in cartList){
-					    if(cartList[key] ===null){
-					       delete cartList[key]
-					    }
-					}
+					
 					if(this.buyState){	//直接购买
 						uni.setStorageSync('dsshopOrderList', cartList)
 					}else{
-						// 发送给后台
-						GoodIndent.addShoppingCart(cartList,function(res){})
 						uni.setStorageSync('dsshopCartList', cartList)
 					}
 					
@@ -546,7 +535,7 @@ export default{
 				}else{
 					if(this.buyState){	//直接购买
 						uni.navigateTo({
-							url: `/pages/indent/create`
+							url: `/pages/order/createOrder`
 						})
 					}else{
 						uni.showToast({

@@ -32,7 +32,7 @@
 		<view class="goods-section">
 			<!-- 商品列表 -->
 			<navigator
-				:url="'/pages/product/detail?id=' + item.good_id"
+				:url="'/pages/product/product?id=' + item.good_id"
 				hover-class="none"
 				class="g-item padding-top-sm"
 				v-for="(item, index) in indentList.goods_list"
@@ -50,7 +50,7 @@
 			</navigator>
 		</view>
 		<!-- 金额明细 -->
-		<view class="yt-list margin-bottom">
+		<view class="yt-list">
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">备注</text>
 				<text class="cell-tip">{{ indentList.remark ? indentList.remark : '' }}</text>
@@ -79,10 +79,6 @@
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">订单状态</text>
 				<text class="cell-tip">{{ indentList.state_show }}</text>
-			</view>
-			<view class="yt-list-cell b-b" v-if="indentList.receiving_time">
-				<text class="cell-tit clamp">订单自动收货时间</text>
-				<text class="cell-tip" style="color: #fa436a;">{{ indentList.receiving_time }}</text>
 			</view>
 		</view>
 		<!-- 底部 -->

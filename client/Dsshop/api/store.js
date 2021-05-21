@@ -1,6 +1,6 @@
 import Network from '../utils/network.js'
 export default {
-    edit(data,success,fail) {
+    updateSubmit(data,success,fail) {
     	Network.setPostMessage('store',data,'处理中', function (res) {
     	  success(res)
     	}, function (res) {

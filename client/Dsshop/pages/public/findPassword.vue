@@ -226,6 +226,7 @@
 		background: #fff;
 	}
 	.wrapper{
+		position:relative;
 		z-index: 90;
 		background: #fff;
 		padding-bottom: 40upx;

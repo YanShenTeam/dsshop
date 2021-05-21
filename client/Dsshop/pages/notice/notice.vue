@@ -89,10 +89,9 @@
 				// #endif
 			},
 			goNavigator(url){
-				// 为了兼容老版本
 				uni.navigateTo({
-					url: url.replace('order\/showOrder','indent\/detail')
-				})
+					url: url
+				})  
 			},
 			onPullDownRefresh() {
 				this.data = []

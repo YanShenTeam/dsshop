@@ -291,13 +291,13 @@
 			//编辑
 			goOrder(res){
 				uni.navigateTo({
-					url: `/pages/indent/create?id=${res.id}`
+					url: `/pages/order/createOrder?id=${res.id}`
 				})
 			},
 			//订单展示
 			goShowOrder(res){
 				uni.navigateTo({
-					url: `/pages/indent/detail?id=${res.id}`
+					url: `/pages/order/showOrder?id=${res.id}`
 				})
 			},
 			//关闭订单后重新加载

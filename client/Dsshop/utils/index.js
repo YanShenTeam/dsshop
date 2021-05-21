@@ -157,19 +157,3 @@ export function getPlatform(){
 	return "mini360"
 	// #endif
 }
-/**
- * 检测当前环境是否是微信浏览器访问
- */
-export function micromessenger() {
-	let ua = window.navigator.userAgent.toLowerCase()
-	if(ua.match(/MicroMessenger/i)){
-		if (ua.match(/MicroMessenger/i)[0] == 'micromessenger') {
-			return true
-		} else {
-			return false
-		}
-	}else{
-		return false
-	}
-	
-}

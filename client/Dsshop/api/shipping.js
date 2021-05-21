@@ -44,8 +44,8 @@ export default {
 		  })
 		})
 	},
-	freight(id,data,success,fail) {
-		Network.setPost('shipping/freight/'+id,data, function (res) {
+	defaultGet(data,success,fail) {
+		Network.setPostMessage('shipping/default/get',data,'加载中', function (res) {
 		  success(res)
 		}, function (res) {
 		  uni.showToast({

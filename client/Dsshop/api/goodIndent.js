@@ -44,19 +44,6 @@ export default {
 		  })
 		})
 	},
-	addShoppingCart(data, success,fail) {
-		Network.setPostMessage('goodIndent/addShoppingCart',data,'', function (res) {
-			success(res)
-		}, function (res) {
-		})
-	},
-	clearShoppingCart(data, success,fail) {
-		Network.setPostMessage('goodIndent/clearShoppingCart',data,'', function (res) {
-		  success(res)
-		}, function (res) {
-		  
-		})
-	},
 	pay(id, success,fail) {
 		Network.setGetMessage('goodIndent/pay/' + id,{},'加载中', function (res) {
 		  success(res)

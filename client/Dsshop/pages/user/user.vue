@@ -38,19 +38,19 @@
 			</view>
 			<!-- 订单 -->
 			<view class="order-section">
-				<view class="order-item" @click="navTo('/pages/indent/list?state=0')" hover-class="common-hover"  :hover-stay-time="50">
+				<view class="order-item" @click="navTo('/pages/order/order?state=0')" hover-class="common-hover"  :hover-stay-time="50">
 					<text class="yticon icon-shouye"><text v-if="quantity.all" class="cu-tag badge">{{quantity.all}}</text></text>
 					<text>全部订单</text>
 				</view>
-				<view class="order-item" @click="navTo('/pages/indent/list?state=1')"  hover-class="common-hover" :hover-stay-time="50">
+				<view class="order-item" @click="navTo('/pages/order/order?state=1')"  hover-class="common-hover" :hover-stay-time="50">
 					<text class="yticon icon-daifukuan"><text v-if="quantity.obligation" class="cu-tag badge">{{quantity.obligation}}</text></text>
 					<text>待付款</text>
 				</view>
-				<view class="order-item" @click="navTo('/pages/indent/list?state=2')" hover-class="common-hover"  :hover-stay-time="50">
+				<view class="order-item" @click="navTo('/pages/order/order?state=2')" hover-class="common-hover"  :hover-stay-time="50">
 					<text class="yticon icon-gouwuche_"><text v-if="quantity.waitdeliver" class="cu-tag badge">{{quantity.waitdeliver}}</text></text>
 					<text>待发货</text>
 				</view>
-				<view class="order-item" @click="navTo('/pages/indent/list?state=3')" hover-class="common-hover"  :hover-stay-time="50">
+				<view class="order-item" @click="navTo('/pages/order/order?state=3')" hover-class="common-hover"  :hover-stay-time="50">
 					<text class="yticon icon-yishouhuo"><text v-if="quantity.waitforreceiving" class="cu-tag badge">{{quantity.waitforreceiving}}</text></text>
 					<text>待收货</text>
 				</view>
@@ -62,7 +62,7 @@
 					<text>浏览历史</text>
 				</view>
 				<scroll-view scroll-x class="h-list">
-					<image v-for="(item, index) in browseList" :key="index" @click="navTo('/pages/product/detail?id=' + item.good_id)" :src="item.good.resources.img | smallImage" mode="aspectFill" lazy-load></image>
+					<image v-for="(item, index) in browseList" :key="index" @click="navTo('/pages/product/product?id=' + item.good_id)" :src="item.good.resources.img | smallImage" mode="aspectFill" lazy-load></image>
 				</scroll-view>
 				<list-cell icon="icon-iconfontweixin" iconColor="#e07472" title="账单" @eventClick="navTo('/pages/finance/bill')"></list-cell>
 				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="地址管理" @eventClick="navTo('/pages/address/address')"></list-cell>

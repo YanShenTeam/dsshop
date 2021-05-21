@@ -52,10 +52,10 @@
 			<!-- 标题栏和状态栏占位符 -->
 			<view class="titleNview-placing"></view>
 			<!-- 背景色区域 -->
-			<view class="titleNview-background"></view>
+			<view class="titleNview-background" style="backgroundColor:rgb(203, 87, 60)"></view>
 			<swiper class="carousel" circular @change="swiperChange">
 				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item" @click="navToWwiperPage({item})">
-					<image :src="item.resources.img"/>
+					<image :src="item.resources.img" @click="navTo(item.url)"/>
 				</swiper-item>
 			</swiper>
 			<!-- 自定义swiper指示器 -->
@@ -68,7 +68,7 @@
 		<!-- 分类 -->
 		<view class="cate-section">
 			<view v-for="item in ctegory" :key="item.id" class="cate-item" @click="navTo('/pages/product/list?fid='+item.category.pid+'&sid='+item.pid+'&tid='+item.id)">
-				<image v-if="item.resources" :src="item.resources.img | smallImage(80)" lazy-load style="padding:20rpx;"></image>
+				<image v-if="item.resources" :src="item.resources.img | smallImage(80)" lazy-load></image>
 				<text>{{item.name}}</text>
 			</view>
 		</view>
@@ -179,18 +179,14 @@ import Banner from '../../api/banner'
 			},
 			//轮播跳转
 			navToWwiperPage(item) {
-				if(item.item.url){
-					uni.navigateTo({
-						url: item.item.url
-					})
-				}
+				console.log(item)
 			},
 			//详情页
 			navToDetailPage(item) {
 				//测试数据没有写id，用title代替
 				let id = item.id;
 				uni.navigateTo({
-					url: `/pages/product/detail?id=${id}`
+					url: `/pages/product/product?id=${id}`
 				})
 			},
 			//跳转
@@ -200,6 +196,7 @@ import Banner from '../../api/banner'
 						url
 					})  
 				}
+				
 			}, 
 			// #ifdef MP-WEIXIN
 			//弹出引导页
@@ -382,12 +379,12 @@ import Banner from '../../api/banner'
 			margin-bottom: 14upx;
 			border-radius: 50%;
 			opacity: .7;
-			box-shadow: 4upx 4upx 20upx rgba(0, 0, 0, 0.3);
+			box-shadow: 4upx 4upx 20upx rgba(250, 67, 106, 0.3);
 		}
 	}
 	.ad-1{
 		width: 100%;
-		height: 140upx;
+		height: 210upx;
 		padding: 20upx 0;
 		background: #fff;
 		image{

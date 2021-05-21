@@ -151,7 +151,7 @@
 				this.invalidGood = []
 				let cartList =  uni.getStorageSync('dsshopCartList') || {}
 				const that = this
-				GoodIndent.synchronizationInventory({},function(res){
+				GoodIndent.synchronizationInventory(cartList,function(res){
 					cartList = Object.values(res)
 					for(var k in cartList){
 						cartList[k].checked = true
@@ -181,7 +181,6 @@
 						}
 					}
 					that.cartList = cartList
-					uni.setStorageSync('dsshopCartList', cartList)
 					uni.setStorageSync('dsshopOrderList', cartList)
 					getApp().showDsshopCartNumber()
 					that.calcTotal();  //计算总价
@@ -228,9 +227,6 @@
 					this.allChecked = checked;
 				}
 				this.calcTotal(type);
-				uni.setStorageSync('dsshopCartList', this.cartList)
-				uni.setStorageSync('dsshopOrderList', this.cartList)
-				GoodIndent.addShoppingCart(this.cartList,function(res){})
 			},
 			//数量
 			numberChange(data){
@@ -269,7 +265,6 @@
 				getApp().showDsshopCartNumber()
 				this.cartList.splice(index, 1);
 				this.calcTotal();
-				GoodIndent.addShoppingCart(this.cartList,function(res){})
 			},
 			//删除失效的商品
 			deleteInvalidGood(index){
@@ -285,7 +280,6 @@
 				
 				uni.setStorageSync('dsshopCartList', cartList)
 				uni.setStorageSync('dsshopOrderList', cartList)
-				GoodIndent.addShoppingCart(this.cartList,function(res){})
 				this.invalidGood.splice(index, 1);
 			},
 			//清空
@@ -300,7 +294,6 @@
 							uni.removeStorageSync('dsshopCartList')
 							uni.removeStorageSync('dsshopOrderList')
 							getApp().showDsshopCartNumber()
-							GoodIndent.clearShoppingCart([],function(res){})
 						}
 					}
 				})
@@ -332,7 +325,7 @@
 			//访问商品
 			goProduct(res){
 				uni.navigateTo({
-					url: `/pages/product/detail?id=${res.good_id}`
+					url: `/pages/product/product?id=${res.good_id}`
 				})
 			},
 			//创建订单
@@ -349,9 +342,8 @@
 					this.$api.msg('未选择商品')
 					return false
 				}
-				uni.setStorageSync('dsshopOrderList', goodsData)
 				uni.navigateTo({
-					url: `/pages/indent/create`
+					url: `/pages/order/createOrder`
 				})
 			}
 		}
