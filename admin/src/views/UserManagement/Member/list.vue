@@ -172,7 +172,7 @@
 import { getList, create, edit } from '@/api/member'
 import waves from '@/directive/waves' // Waves directive
 import { parseTime } from '@/utils'
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'MemberList',
@@ -183,7 +183,7 @@ export default {
       if (value === '') {
         callback(new Error(this.$t('hint.enterMobile')))
       } else {
-        if (!(/^1[34578]\d{9}$/.test(value))) {
+        if (!(/^1[345789]\d{9}$/.test(value))) {
           callback(new Error(this.$t('hint.mobileFormatWrong')))
         }
         callback()

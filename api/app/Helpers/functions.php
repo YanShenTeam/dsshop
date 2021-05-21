@@ -53,6 +53,29 @@ function genTree($items, $pid = "pid", $son = "children")
 }
 
 /**
+ * 获取所有子级及同父级数据
+ * @param array $items 数据源
+ * @param array $map 当前的id
+ * @return array
+ */
+function allSublevel($items, $map)
+{
+    $i = 0;
+    foreach ($items as $id => $it) {
+        // 获取子级数据
+        if (in_array($it['pid'], $map)) {
+            $i++;
+            array_unshift($map, $it['id']);
+            unset($items[$id]);
+        }
+    }
+    if ($i > 0) {
+        allSublevel($items, $map);
+    }
+    return $map;
+}
+
+/**
  * 删除多维数组里面的指定的键值对
  * @param array $unset 需要删除的键值对
  * @param array $array 原数组
@@ -81,7 +104,13 @@ function unsetMultiKeys($unset, $array)
     return $recursiveIterator->getArrayCopy();
 }
 
-//获取所有父类值
+/**
+ * 获取所有父类值
+ * @param $pid
+ * @param $options
+ * @param array $return
+ * @return array
+ */
 function getParentClassHierarchy($pid, $options, &$return = array())
 {
     foreach ($options as $o) {
@@ -91,6 +120,26 @@ function getParentClassHierarchy($pid, $options, &$return = array())
             continue;
         }
     }
+    return $return;
+}
+
+/**
+ * 获取所有父类并返回原数据
+ * @param $pid
+ * @param $options
+ * @param array $return
+ * @return array
+ */
+function getParentClassHierarchyData($pid, $options, &$return = array())
+{
+    foreach ($options as $o) {
+        if ($o['id'] == $pid) {
+            $return[] = $o;
+            getParentClassHierarchyData($o['pid'], $options, $return);
+            continue;
+        }
+    }
+//    $return = genTree($return);
     return $return;
 }
 
@@ -138,7 +187,7 @@ function orderNumber()
  */
 function imgPathShift($new, $img)
 {
-    if (config('dswjcms.homestead')) {
+    if (config('dsshop.homestead')) {
         $path = request()->root() . '/storage/temporary/';
         $img = explode($path, $img);
         if (count($img) == 2) {   //上传过的图片才进行处理
@@ -279,4 +328,24 @@ function sortFormatConversion($sortOriginal)
             return [$sortOriginal, 'ASC'];
         }
     }
+}
+
+/**
+ * 计算时间差
+ * @param $date
+ * @return array
+ */
+function time_diff($date)
+{
+    $t = strtotime($date) - time();//单位"秒"
+    $arr = [];
+    $day = intval($t / 86400);//天
+    $arr['day'] = $day;
+    $hour = intval((($t / 86400) - $day) * 24);//小时
+    $arr['hour'] = $hour;
+    $minute = intval((((($t / 86400) - $day) * 24) - $hour) * 60);//分钟
+    $arr['minute'] = $minute;
+    $second = intval(((((((($t / 86400) - $day) * 24) - $hour) * 60) - $minute) * 60));//秒
+    $arr['second'] = $second;
+    return $arr;
 }

@@ -35,11 +35,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
-
+//        $this->mapApiRoutes();
+        $this->mapAdminRoutes();
+        $this->mapAppRoutes();
+        $this->mapPluginRoutes();
         $this->mapWebRoutes();
-
-        //
+        Route::post('/oauth/token', [
+            'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
+            'middleware' => 'throttle:600,1',
+        ]);
+        
     }
 
     /**
@@ -69,5 +74,29 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapAdminRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
+
+    protected function mapAppRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/app.php'));
+    }
+
+    protected function mapPluginRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/plugin.php'));
     }
 }
