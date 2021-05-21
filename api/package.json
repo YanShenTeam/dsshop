@@ -7,18 +7,25 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "release": "standard-version",
+        "commit": "cz"
     },
     "devDependencies": {
+        "@types/standard-version": "^7.0.0",
         "axios": "^0.21.1",
         "bootstrap": "^4.0.0",
+        "commitizen": "^4.2.3",
         "cross-env": "^5.1",
+        "cz-conventional-changelog": "^3.2.0",
+        "cz-emoji-chinese": "^0.3.1",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
+        "standard-version": "^9.1.0",
         "vue": "^2.5.17",
         "vue-router": "^3.1.3",
         "vue-template-compiler": "^2.6.10"
@@ -26,5 +33,104 @@
     "dependencies": {
         "element-ui": "^2.12.0",
         "vant-weapp": "^0.5.15"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-emoji-chinese"
+        },
+        "cz-emoji-chinese": {
+            "types": [
+                {
+                    "emoji": "✨",
+                    "code": ":sparkles:",
+                    "description": "引入新特性",
+                    "name": "feat"
+                },
+                {
+                    "emoji": "🐛",
+                    "code": ":bug:",
+                    "description": "修复 Bug",
+                    "name": "fix"
+                },
+                {
+                    "emoji": "📝",
+                    "code": ":pencil:",
+                    "description": "仅仅修改了文档，比如README, CHANGELOG, CONTRIBUTE等等",
+                    "name": "docs"
+                },
+                {
+                    "emoji": "🎨",
+                    "code": ":art:",
+                    "description": "仅仅修改了空格、格式缩进、逗号、样式等等，不改变代码逻辑",
+                    "name": "style"
+                },
+                {
+                    "emoji": "♻️",
+                    "code": ":recycle:",
+                    "description": "代码重构，没有加新功能或者修复bug",
+                    "name": "refactor"
+                },
+                {
+                    "emoji": "⚡️",
+                    "code": ":zap:",
+                    "description": "优化相关，比如提升性能、体验",
+                    "name": "perf"
+                },
+                {
+                    "emoji": "✅",
+                    "code": ":white_check_mark:",
+                    "description": "测试用例，包括单元测试、集成测试等",
+                    "name": "test"
+                },
+                {
+                    "emoji": "🏗",
+                    "code": ":building_construction:",
+                    "description": "构建系统或者包依赖更新",
+                    "name": "build"
+                },
+                {
+                    "emoji": "👷",
+                    "code": ":construction_worker:",
+                    "description": "CI 配置，脚本文件等更新",
+                    "name": "ci"
+                },
+                {
+                    "emoji": "🔨",
+                    "code": ":hammer:",
+                    "description": "改变构建流程、或者增加依赖库、工具等",
+                    "name": "chore"
+                },
+                {
+                    "emoji": "⏪",
+                    "code": ":rewind:",
+                    "description": "回滚到上一个版本",
+                    "name": "revert"
+                },
+                {
+                    "emoji": "🔥",
+                    "code": ":fire:",
+                    "description": "仅仅移除代码、文件，没有加新功能或者修复bug",
+                    "name": "prune"
+                },
+                {
+                    "emoji": "🎉",
+                    "code": ":tada:",
+                    "description": "项目初始化提交",
+                    "name": "init"
+                },
+                {
+                    "emoji": "🔖",
+                    "code": ":bookmark:",
+                    "description": "发布版本",
+                    "name": "release"
+                },
+                {
+                    "emoji": "🔀",
+                    "code": ":twisted_rightwards_arrows:",
+                    "description": "合并分支",
+                    "name": "merge"
+                }
+            ]
+        }
     }
 }
